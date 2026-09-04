@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STACKRAW
+#define STACKRAW
 
 #include <cstddef>
 #include <stdexcept>
@@ -91,3 +92,4 @@ template<typename T>
 const T &StackRaw<T>::top() const {
   throw std::logic_error("TODO StackRaw::top const");
 }
+#endif
