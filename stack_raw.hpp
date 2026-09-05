@@ -53,7 +53,12 @@ void StackRaw<T>::grow() {
 }
 
 template<typename T>
-StackRaw<T>::StackRaw(const StackRaw &other):data_(other.data_),size_(other.size_),capacity_(other.capacity_) {}
+StackRaw<T>::StackRaw(const StackRaw &other):data_(nullptr),size_(other.size_),capacity_(other.capacity_) {
+if(capacity_>0){
+	data_=new T[capacity_];
+	for(size_t i=0;i<capacity_;i++){
+		data_[i]=other.data_[i];}
+}}
 
 template<typename T>
 StackRaw<T>::StackRaw(StackRaw &&other) noexcept: data_(move(other.data_)),size_(move(other.size_)),capacity_(move(other.capacity_)){}
