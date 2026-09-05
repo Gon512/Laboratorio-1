@@ -68,10 +68,17 @@ other.capacity_=0;}
 
 template<typename T>
 StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
-        if(this!=&other){
-this.data_=other.data_;
-this.size_=other.size_;
-this.capacity_=other.capacity_;}
+    if(this!=&other){
+	T* new_data_=nullptr;
+	if(other.capacity_>0){
+		new_data_=new T[other.capacity_];
+		for(size_t i=0;i<other.size_;i++)
+			new_data_[i]=other.data_[i];}
+	data_=new_data_;
+	size_=other.size_;
+	capacity_=other.capacity_;}
+
+
         return *this;
 }
 
