@@ -73,7 +73,9 @@ StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
 	if(other.capacity_>0){
 		new_data_=new T[other.capacity_];
 		for(size_t i=0;i<other.size_;i++)
-			new_data_[i]=other.data_[i];}
+			new_data_[i]=other.data_[i];
+	delete[] data_;
+	}
 	data_=new_data_;
 	size_=other.size_;
 	capacity_=other.capacity_;}
