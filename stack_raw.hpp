@@ -61,7 +61,10 @@ if(capacity_>0){
 }}
 
 template<typename T>
-StackRaw<T>::StackRaw(StackRaw &&other) noexcept: data_(move(other.data_)),size_(move(other.size_)),capacity_(move(other.capacity_)){}
+StackRaw<T>::StackRaw(StackRaw &&other) noexcept: data_(other.data_),size_(other.size_),capacity_(other.capacity_){
+other.data_=nullptr;
+other.size_=0;
+other.capacity_=0;}
 
 template<typename T>
 StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
