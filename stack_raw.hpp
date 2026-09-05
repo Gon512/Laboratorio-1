@@ -44,7 +44,7 @@ void StackRaw<T>::grow() {
 		new_capacity=1;
 	else{new_capacity=capacity_*2};
 	T* new_data=new T[new_capacity];
-	for(int i=0;i<size_;i++)
+	for(size_t i=0;i<size_;i++)
 		new_data[i]=data_[i];
 	delete[] data_;
 	data_=new_data;
@@ -53,24 +53,28 @@ void StackRaw<T>::grow() {
 }
 
 template<typename T>
-StackRaw<T>::StackRaw(const StackRaw &) {
-  throw std::logic_error("TODO StackRaw copy constructor");
+StackRaw<T>::StackRaw(const StackRaw &other):data_(other.data_),size_(other.size_),capacity_(other.capacity_) {}
+
+template<typename T>
+StackRaw<T>::StackRaw(StackRaw &&other) noexcept: data_(move(other.data_)),size_(move(other.size_)),capacity_(move(other.capacity_)){}
+
+template<typename T>
+StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
+        if(this!=&other){
+this.data_=other.data_;
+this.size_=other.size_;
+this.capacity_=other.capacity_;}
+        return *this;
 }
 
 template<typename T>
-StackRaw<T>::StackRaw(StackRaw &&) noexcept {
-  // TODO: transferir ownership y dejar el origen vacío.
-}
-
-template<typename T>
-StackRaw<T> &StackRaw<T>::operator=(const StackRaw &) {
-  throw std::logic_error("TODO StackRaw copy assignment");
-}
-
-template<typename T>
-StackRaw<T> &StackRaw<T>::operator=(StackRaw &&) noexcept {
-  // TODO: liberar el recurso actual, transferir ownership y vaciar el origen.
-  return *this;
+StackRaw<T> &StackRaw<T>::operator=(StackRaw &&other) noexcept {
+  if(this!=&other){
+          this.data_=move(other.data_);
+          this.size_=move(other.size_);
+          this.capacity_=move(other.capacity);}
+  return *this; 
+	
 }
 
 template<typename T>
