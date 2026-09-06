@@ -101,26 +101,38 @@ StackRaw<T>::~StackRaw() {
 
 template<typename T>
 void StackRaw<T>::push(const T &) {
-  throw std::logic_error("TODO StackRaw::push(const T&)");
+	if(size_==capacity_)
+		grow();
+	data_[size_]=x;
+size++;}
 }
 
 template<typename T>
 void StackRaw<T>::push(T &&) {
-  throw std::logic_error("TODO StackRaw::push(T&&)");
+if(size_==capacity_)
+	grow();
+data_[size_]=x;
+size_++;
 }
 
 template<typename T>
 void StackRaw<T>::pop() {
-  throw std::logic_error("TODO StackRaw::pop");
+	if(size_==0)
+		throw out_of_range("Stack vacio");
+	size_-=1;
 }
 
 template<typename T>
 T &StackRaw<T>::top() {
-  throw std::logic_error("TODO StackRaw::top");
+        if(size_==0)
+                throw out_of_range("Stack vacio");
+	return data_[size_-1];
 }
 
 template<typename T>
 const T &StackRaw<T>::top() const {
-  throw std::logic_error("TODO StackRaw::top const");
+        if(size_==0)
+                throw out_of_range("Stack vacio");
+	return &data_[size_-1];
 }
 #endif
