@@ -1,4 +1,5 @@
-#pragma once
+#ifndef QUEUESHIFT
+#define QUEUESHIFT
 
 #include <cstddef>
 #include <stdexcept>
@@ -43,8 +44,17 @@ public:
 
 template<typename T>
 void QueueShift<T>::grow() {
-  throw std::logic_error("TODO QueueShift::grow");
-}
+size_t new_capacity_;
+	if(capacity_==0)
+		new_capacity_=1;
+	else{new_capacity=capacity_*2;}
+	T* new_data=new T[new_capacity_];
+	for(size_t i=0;i<size_;i++){
+		new_data[i]=data_[i];
+		moves_++;}
+	delete[] data_;
+	data_=new_data;
+	capacity_=new_capacity_;}
 
 template<typename T>
 QueueShift<T>::QueueShift(const QueueShift &) {
@@ -96,3 +106,4 @@ template<typename T>
 const T &QueueShift<T>::front() const {
   throw std::logic_error("TODO QueueShift::front const");
 }
+#endif
