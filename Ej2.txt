@@ -1,0 +1,6 @@
+a) ¿Qué responsabilidad ha sido delegada a std::vector?
+Se le ha delegado el crecimiento dinamico del stack, por lo tanto ya no es necesario implementar la funcion grow();
+b) ¿Qué parte del TDA permanece idéntica?
+El comportamiento del stack permanece igual y mantiene el comportamiento LIFO;
+c) ¿Por qué usar STL no elimina la necesidad de entender el costo de las operaciones?
+Para poder reconocer y decidir cual estructura de datos es mejor en cada caso;
