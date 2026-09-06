@@ -42,7 +42,7 @@ void StackRaw<T>::grow() {
 	size_t new_capacity=0;
 	if (capacity_==0)
 		new_capacity=1;
-	else{new_capacity=capacity_*2};
+	else{new_capacity=capacity_*2;}
 	T* new_data=new T[new_capacity];
 	for(size_t i=0;i<size_;i++)
 		new_data[i]=data_[i];
@@ -50,13 +50,13 @@ void StackRaw<T>::grow() {
 	data_=new_data;
 	capacity_=new_capacity;}
 	
-}
+
 
 template<typename T>
 StackRaw<T>::StackRaw(const StackRaw &other):data_(nullptr),size_(other.size_),capacity_(other.capacity_) {
 if(capacity_>0){
 	data_=new T[capacity_];
-	for(size_t i=0;i<capacity_;i++){
+	for(size_t i=0;i<size_;i++){
 		data_[i]=other.data_[i];}
 }}
 
@@ -73,9 +73,9 @@ StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
 	if(other.capacity_>0){
 		new_data_=new T[other.capacity_];
 		for(size_t i=0;i<other.size_;i++)
-			new_data_[i]=other.data_[i];
+			new_data_[i]=other.data_[i];}
 	delete[] data_;
-	}
+	
 	data_=new_data_;
 	size_=other.size_;
 	capacity_=other.capacity_;}
@@ -87,9 +87,14 @@ StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
 template<typename T>
 StackRaw<T> &StackRaw<T>::operator=(StackRaw &&other) noexcept {
   if(this!=&other){
-          this.data_=move(other.data_);
-          this.size_=move(other.size_);
-          this.capacity_=move(other.capacity);}
+	delete[] data_;
+          this->data_=other.data_;
+          this->size_=other.size_;
+          this->capacity_=other.capacity_;
+  other.data_=nullptr;
+  other.size_=0;
+  other.capacity_=0;}
+  
   return *this; 
 	
 }
@@ -100,15 +105,15 @@ StackRaw<T>::~StackRaw() {
 }
 
 template<typename T>
-void StackRaw<T>::push(const T &) {
+void StackRaw<T>::push(const T &x) {
 	if(size_==capacity_)
 		grow();
 	data_[size_]=x;
-size++;}
+size_++;}
 }
 
 template<typename T>
-void StackRaw<T>::push(T &&) {
+void StackRaw<T>::push(T &&x) {
 if(size_==capacity_)
 	grow();
 data_[size_]=x;
@@ -133,6 +138,6 @@ template<typename T>
 const T &StackRaw<T>::top() const {
         if(size_==0)
                 throw out_of_range("Stack vacio");
-	return &data_[size_-1];
+	return data_[size_-1];
 }
 #endif
