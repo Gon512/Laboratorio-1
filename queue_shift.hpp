@@ -57,9 +57,13 @@ size_t new_capacity_;
 	capacity_=new_capacity_;}
 
 template<typename T>
-QueueShift<T>::QueueShift(const QueueShift &) {
-  throw std::logic_error("TODO QueueShift copy constructor");
+QueueShift<T>::QueueShift(const QueueShift &other):data_(nullptr),size_(other.size_),capacity_(other.capacity_),moves_(0){
+if(capacity_>0){
+	data_=new T[capacity_];
+	for(size_t i=0;i<size_;i++)
+		data_[i]=other.data_[i];}
 }
+
 
 template<typename T>
 QueueShift<T>::QueueShift(QueueShift &&) noexcept {
