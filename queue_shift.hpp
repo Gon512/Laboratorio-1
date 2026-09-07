@@ -95,9 +95,18 @@ QueueShift<T> &QueueShift<T>::operator=(const QueueShift &other) {
 
 
 template<typename T>
-QueueShift<T> &QueueShift<T>::operator=(QueueShift &&) noexcept {
-  // TODO: liberar el recurso actual, transferir ownership y vaciar el origen.
-  return *this;
+QueueShift<T> &QueueShift<T>::operator=(QueueShift &&other) noexcept {
+    if(this!=&other){
+	delete[] data_;
+          this->data_=other.data_;
+          this->size_=other.size_;
+          this->capacity_=other.capacity_;
+	  this->moves_=other.moves_;
+  other.data_=nullptr;
+  other.size_=0;
+  other.capacity_=0;
+  other.moves_=0;}
+	return *this;
 }
 
 template<typename T>
@@ -106,18 +115,30 @@ QueueShift<T>::~QueueShift() {
 }
 
 template<typename T>
-void QueueShift<T>::push(const T &) {
-  throw std::logic_error("TODO QueueShift::push(const T&)");
+void QueueShift<T>::push(const T &x) {
+if(size_==capacity_)
+	grow();
+data_[size_]=x;
+size_++;
 }
 
 template<typename T>
-void QueueShift<T>::push(T &&) {
-  throw std::logic_error("TODO QueueShift::push(T&&)");
+void QueueShift<T>::push(T &&x) {
+	if(size_==capacity_)
+		grow();
+	data_[size_]=x;
+	size_++;
 }
 
 template<typename T>
 void QueueShift<T>::pop() {
-  throw std::logic_error("TODO QueueShift::pop");
+if(size_==0)
+	throw out_of_range("Queue vacia");
+for(size_t i=0;i<size_-1;i++){
+	data_[i]=data_[i+1];
+	moves_++;
+}
+size_-=1;
 }
 
 template<typename T>
