@@ -66,8 +66,11 @@ if(capacity_>0){
 
 
 template<typename T>
-QueueShift<T>::QueueShift(QueueShift &&) noexcept {
-  // TODO: transferir ownership y dejar el origen vacío.
+QueueShift<T>::QueueShift(QueueShift &&other) noexcept:data_(other.data_), size_(other.size_), capacity_(other.capacity_), moves_(other.moves_)i{
+	other.data_=nullptr;
+	other.size_=0;
+	other.capacity_=0;
+	other.moves_=0;
 }
 
 template<typename T>
