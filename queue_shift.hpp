@@ -143,11 +143,15 @@ size_-=1;
 
 template<typename T>
 T &QueueShift<T>::front() {
-  throw std::logic_error("TODO QueueShift::front");
+if(size_==0)
+	throw out_of_range("Queue vacia");
+return data_[0];
 }
 
 template<typename T>
 const T &QueueShift<T>::front() const {
-  throw std::logic_error("TODO QueueShift::front const");
+if(size_==0)
+        throw out_of_range("Queue vacia");
+return data_[0];
 }
 #endif
