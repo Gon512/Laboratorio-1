@@ -1,0 +1,3 @@
+Al realizarse n inserciones y luego eliminarlas:
+Para la QueueShift al eliminar un elemento se desplazan los n-1 elementos restantes, cuando se elimina el segundo se desplazan los n-2 elementos restantes hasta llegar a solo 1 elemento desplazado, y eso hace que se tenga n operaciones por n elementos de forma decreciente hasta llegar a 1 lo que nos lleva a un costo esperado de O(n^2).
+Para la QueueCircular al eliminar elementos no se desplaza a los restantes, solo el head_ cambia de posicion dando un costo estimado de O(1), mientras que para las inserciones al tener un crecimiento geometrico se estima un costo de O(n) en total.
