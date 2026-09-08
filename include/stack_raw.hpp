@@ -1,9 +1,10 @@
-#pragma once
+#ifndef STACKRAW
+#define STACKRAW
 
 #include <cstddef>
 #include <stdexcept>
 #include <utility>
-
+using namespace std;
 template<typename T>
 class StackRaw {
 private:
@@ -38,28 +39,64 @@ public:
 
 template<typename T>
 void StackRaw<T>::grow() {
-  throw std::logic_error("TODO StackRaw::grow");
+	size_t new_capacity=0;
+	if (capacity_==0)
+		new_capacity=1;
+	else{new_capacity=capacity_*2;}
+	T* new_data=new T[new_capacity];
+	for(size_t i=0;i<size_;i++)
+		new_data[i]=data_[i];
+	delete[] data_;
+	data_=new_data;
+	capacity_=new_capacity;}
+	
+
+
+template<typename T>
+StackRaw<T>::StackRaw(const StackRaw &other):data_(nullptr),size_(other.size_),capacity_(other.capacity_) {
+if(capacity_>0){
+	data_=new T[capacity_];
+	for(size_t i=0;i<size_;i++){
+		data_[i]=other.data_[i];}
+}}
+
+template<typename T>
+StackRaw<T>::StackRaw(StackRaw &&other) noexcept: data_(other.data_),size_(other.size_),capacity_(other.capacity_){
+other.data_=nullptr;
+other.size_=0;
+other.capacity_=0;}
+
+template<typename T>
+StackRaw<T> &StackRaw<T>::operator=(const StackRaw &other) {
+    if(this!=&other){
+	T* new_data_=nullptr;
+	if(other.capacity_>0){
+		new_data_=new T[other.capacity_];
+		for(size_t i=0;i<other.size_;i++)
+			new_data_[i]=other.data_[i];}
+	delete[] data_;
+	
+	data_=new_data_;
+	size_=other.size_;
+	capacity_=other.capacity_;}
+
+
+        return *this;
 }
 
 template<typename T>
-StackRaw<T>::StackRaw(const StackRaw &) {
-  throw std::logic_error("TODO StackRaw copy constructor");
-}
-
-template<typename T>
-StackRaw<T>::StackRaw(StackRaw &&) noexcept {
-  // TODO: transferir ownership y dejar el origen vacío.
-}
-
-template<typename T>
-StackRaw<T> &StackRaw<T>::operator=(const StackRaw &) {
-  throw std::logic_error("TODO StackRaw copy assignment");
-}
-
-template<typename T>
-StackRaw<T> &StackRaw<T>::operator=(StackRaw &&) noexcept {
-  // TODO: liberar el recurso actual, transferir ownership y vaciar el origen.
-  return *this;
+StackRaw<T> &StackRaw<T>::operator=(StackRaw &&other) noexcept {
+  if(this!=&other){
+	delete[] data_;
+          this->data_=other.data_;
+          this->size_=other.size_;
+          this->capacity_=other.capacity_;
+  other.data_=nullptr;
+  other.size_=0;
+  other.capacity_=0;}
+  
+  return *this; 
+	
 }
 
 template<typename T>
@@ -68,26 +105,39 @@ StackRaw<T>::~StackRaw() {
 }
 
 template<typename T>
-void StackRaw<T>::push(const T &) {
-  throw std::logic_error("TODO StackRaw::push(const T&)");
-}
+void StackRaw<T>::push(const T &x) {
+	if(size_==capacity_)
+		grow();
+	data_[size_]=x;
+size_++;}
+
 
 template<typename T>
-void StackRaw<T>::push(T &&) {
-  throw std::logic_error("TODO StackRaw::push(T&&)");
+void StackRaw<T>::push(T &&x) {
+if(size_==capacity_)
+	grow();
+data_[size_]=x;
+size_++;
 }
 
 template<typename T>
 void StackRaw<T>::pop() {
-  throw std::logic_error("TODO StackRaw::pop");
+	if(size_==0)
+		throw out_of_range("Stack vacio");
+	size_-=1;
 }
 
 template<typename T>
 T &StackRaw<T>::top() {
-  throw std::logic_error("TODO StackRaw::top");
+        if(size_==0)
+                throw out_of_range("Stack vacio");
+	return data_[size_-1];
 }
 
 template<typename T>
 const T &StackRaw<T>::top() const {
-  throw std::logic_error("TODO StackRaw::top const");
+        if(size_==0)
+                throw out_of_range("Stack vacio");
+	return data_[size_-1];
 }
+#endif
