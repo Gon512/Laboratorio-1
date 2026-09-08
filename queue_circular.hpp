@@ -53,7 +53,7 @@ void QueueCircular<T>::grow() {
 size_t new_capacity_;
 	if(capacity_==0)
 		new_capacity_=1;
-	else new_capacity=capacity_*2;
+	else new_capacity_=capacity_*2;
 	T* new_data=new T[new_capacity_];
 	for(size_t i=0;i<size_;i++){
 		new_data[i]=data_[physical_index(i)];
@@ -62,18 +62,18 @@ size_t new_capacity_;
 	data_=new_data;
 	capacity_=new_capacity_;
 	head_=0;}
-}
+
 
 template<typename T>
 QueueCircular<T>::QueueCircular(const QueueCircular &other):data_(nullptr),head_(0),size_(other.size_),capacity_(other.capacity_),moves_(0){
 if(capacity_>0){
 	data_=new T[capacity_];
 	for(size_t i=0;i<size_;i++)
-		data_[i]=other.data_[physical_index(i)];}
+		data_[i]=other.data_[other.physical_index(i)];}
 }
 
 template<typename T>
-QueueCircular<T>::QueueCircular(QueueCircular &&other) noexcept:data_(other.data_),head_(other.head_) size_(other.size_), capacity_(other.capacity_), moves_(other.moves_)i{
+QueueCircular<T>::QueueCircular(QueueCircular &&other) noexcept:data_(other.data_),head_(other.head_), size_(other.size_), capacity_(other.capacity_), moves_(other.moves_){
 	other.data_=nullptr;
 	other.head_=0;
 	other.size_=0;
@@ -83,7 +83,7 @@ QueueCircular<T>::QueueCircular(QueueCircular &&other) noexcept:data_(other.data
 
 
 template<typename T>
-QueueCircular<T> &QueueCircular<T>::operator=(const QueueCircular &) {
+QueueCircular<T> &QueueCircular<T>::operator=(const QueueCircular &other) {
    if(this!=&other){
 	T* new_data_=nullptr;
 	if(other.capacity_>0){
@@ -102,7 +102,7 @@ QueueCircular<T> &QueueCircular<T>::operator=(const QueueCircular &) {
 }
 
 template<typename T>
-QueueCircular<T> &QueueCircular<T>::operator=(QueueCircular &&) noexcept {
+QueueCircular<T> &QueueCircular<T>::operator=(QueueCircular &&other) noexcept {
       if(this!=&other){
 	delete[] data_;
           this->data_=other.data_;
@@ -111,7 +111,7 @@ QueueCircular<T> &QueueCircular<T>::operator=(QueueCircular &&) noexcept {
           this->capacity_=other.capacity_;
 	  this->moves_=other.moves_;
   other.data_=nullptr;
-  other.head=0;
+  other.head_=0;
   other.size_=0;
   other.capacity_=0;
   other.moves_=0;}
@@ -145,7 +145,7 @@ void QueueCircular<T>::pop() {
 if(size_==0)
 	throw out_of_range("Queue vacia");
 head_=(head_+1)%capacity_;
-head--;
+size_--;
 }
 
 template<typename T>
